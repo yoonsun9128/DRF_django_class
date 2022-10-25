@@ -33,4 +33,10 @@ def article_detail(request, article_id):
         article = get_object_or_404(Articles, id=article_id)
         serializer = ArticlesSerializers(article)
         return Response(serializer.data)
+    elif request.method == 'PUT':
+        article = get_object_or_404(Articles, id=article_id)
+        serializer = ArticlesSerializers(article, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
 
