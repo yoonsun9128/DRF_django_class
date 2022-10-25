@@ -7,3 +7,6 @@ class Articles(models.Model):
     content = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
     edite_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.title)
