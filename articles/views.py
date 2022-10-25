@@ -1,4 +1,4 @@
-from articles import serializers
+
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -8,7 +8,7 @@ from articles.serializers import ArticlesSerializers
 
 # Create your views here.
 @api_view(['GET','POST'])
-def index(request):
+def articleAPI(request):
     if request.method == 'GET':
         articles = Articles.objects.all()
         # article = articles[0]
@@ -39,4 +39,7 @@ def article_detail(request, article_id):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-
+    elif request.method == 'DELETE':
+        article = get_object_or_404(Articles, id=article_id)
+        article.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
