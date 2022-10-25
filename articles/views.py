@@ -1,6 +1,8 @@
+from articles import serializers
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.generics import get_object_or_404
 from articles.models import Articles
 from articles.serializers import ArticlesSerializers
 
@@ -23,3 +25,12 @@ def index(request):
         else:
             print(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response()
+
+@api_view(['GET','PUT','DELETE'])
+def article_detail(request, article_id):
+    if request.method == 'GET':
+        # article = Articles.objects.get(id=article_id)
+        article = get_object_or_404(Articles, id=article_id)
+        serializer = ArticlesSerializers(article)
+        return Response(serializer.data)
+
